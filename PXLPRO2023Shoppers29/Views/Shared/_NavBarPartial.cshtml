@@ -1,0 +1,163 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using PXLPRO2023Shoppers29.Services.Interfaces;
+@using PXLPRO2023Shoppers29.Models;
+@using Microsoft.AspNetCore.Http;
+@inject IShoppingCartService _shoppingCart
+@inject UserManager<ShopUser> _userManager
+@inject SignInManager<ShopUser> _signInManager
+@inject ICustomerService _customerService
+@inject IHttpContextAccessor _httpContextAccessor
+
+
+
+@{
+    ShopUser user = null;
+    if (_signInManager.IsSignedIn(User))
+    {
+        user = await _userManager.GetUserAsync(User);
+    }
+
+    int customerId = user != null ? await _customerService.GetCustomerIdByUserIdAsync(user.Id) ?? -1 : -1;
+    int itemCount = await _shoppingCart.GetItemCountAsync(customerId);
+
+
+
+    var cartItems = await _shoppingCart.GetShoppingCartItemsAsync(customerId);
+   
+   
+    
+    
+    
+
+   
+}
+
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+<body>
+    <!-- NavBar Start -->
+    <header class="header headery-style-1">
+        <div class="header-middle p-0">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="text-center w-25">
+                        <img src="~/assets/img/logo/chrono-coast-logo.png" alt="logo">
+                    </div>
+                    <div class="w-75">
+                        <div class="header-toolbar">
+                            <div class="search-form-wrapper search-hide">
+                                <form action="#" class="search-form">
+                                    <input type="text" name="search" id="search" class="search-form__input" placeholder="Search entire store here..">
+                                    <button type="submit" class="search-form__submit">
+                                        <i class="icon_search"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <ul class="header-toolbar-icons">
+                                <li class="search-box">
+                                    <a href="#" class="bordered-icon search-btn" aria-expanded="false"><i class="icon_search"></i></a>
+                                </li>
+                                 
+                                                
+                                <li class="mini-cart-icon">
+                                    <div class="mini-cart mini-cart--1">
+                                        <a class="mini-cart__dropdown-toggle bordered-icon" id="cartDropdown">
+                                            <span class="mini-cart__count">
+                                                <span class="mini-cart__count-num">
+                                                    @itemCount
+                                                </span>
+                                            </span>
+                                            <i class="icon_cart_alt mini-cart__icon"></i>
+                                          
+                                                   <span class="mini-cart__ammount">  <i class="fa fa-angle-down"></i></span>
+                                            
+                                        </a>
+                                        <div class="mini-cart__dropdown-menu">
+                                            @if (cartItems != null && cartItems.Any())
+                                            {
+                                                <div class="mini-cart__content" id="miniCart">
+                                                    @foreach (var orderLine in cartItems)
+                                                    {
+                                                        var orderLines = orderLine.OrderLines;
+                                                        @foreach (var orderLineItem in orderLines)
+                                                        {
+                                                            var product = orderLineItem.Product;
+                                                            <div class="mini-cart__item--single">
+                                                                <div class="mini-cart__item--image">
+                                                                    <img src="@product.ImageUrl" alt="product">
+                                                                </div>
+                                                                <div class="mini-cart__item--content">
+                                                                    <h4 class="mini-cart__item--name"><a href="@Url.Action("ProductDetails", "Product", new { id = product.ProductId })">@product.Name</a></h4>
+                                                                    <p class="mini-cart__item--quantity">@orderLineItem.Quantity</p>
+                                                                    <p class="mini-cart__item--price">$@product.Price</p>
+                                                                </div>
+                                                                <form method="post" asp-action="RemoveFromCart" asp-controller="ShoppingCart">
+                                                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                                                    <input type="hidden" name="Quantity" value="@orderLineItem.Quantity" />
+                                                                    <button type="submit" class="mini-cart__item--remove"><i class="icon_close"></i></button>
+                                                                </form>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                    <div class="mini-cart__btn">
+                                                        <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-fullwidth btn-style-1">View Cart</a>
+                                                        <a href="@Url.Action("Checkout", "ShoppingCart")" class="btn btn-fullwidth btn-style-1">Checkout</a>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+                                </li>
+                            </ul>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <div class="user-info header-top-nav__item align-middle">
+                                    <div class="dropdown header-top__dropdown">
+                                        <a class="dropdown-toggle" id="userID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            My Account
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="userID">
+                                            @if (user == null)
+                                            {
+                                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Settings" asp-route-id="@user.CustomerId">Settings</a>
+                                                <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="LogOut">Log Out</a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
+            <div class="container position-static">
+                <div class="row">
+                    <div class="col-12 position-static text-center">
+                        <nav class="main-navigation">
+                            @await Component.InvokeAsync("NavBarComp")
+                        </nav>
+                    </div>
+                </div>
+                <div class="row no-gutters">
+                    <div class="col-12">
+                        <div class="mobile-menu"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>

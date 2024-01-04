@@ -1,0 +1,42 @@
+﻿@model IEnumerable<PXLPRO2023Shoppers29.Models.ViewModels.OrderViewModel>
+@using PXLPRO2023Shoppers29.Services.Interfaces;
+@inject ICustomerService _customerService;
+
+@{
+
+
+    var firstname = _customerService.GetCustomerById(Model.FirstOrDefault().CustomerId).Result.FirstName + " " + _customerService.GetCustomerById(Model.FirstOrDefault().CustomerId).Result.LastName;
+}
+
+
+  
+
+<style>
+    .center {
+        text-align: center;
+        margin: auto;
+        width: 50%;
+    }
+
+    table {
+        margin: auto;
+    }
+</style>
+
+<div class="center mt-5">
+    @foreach (var orderViewModel in Model)
+    {
+        <h2>Order Confirmed</h2>
+
+
+        <p>Customer name: @firstname</p>
+        <p>Total Price: @orderViewModel.TotalPrice</p>
+        <p>Order Date: @orderViewModel.OrderDate</p>
+
+
+
+        <hr />
+    }
+</div>
+
+   

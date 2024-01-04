@@ -1,0 +1,74 @@
+﻿@model PXLPRO2023Shoppers29.Models.ViewModels.LoginViewModel
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+<body>
+    <div class="wrapper bg--shaft">
+        <div class="main-content-wrapper">
+            <div class="about-area bg--dark-3">
+                <div class="container-fluid p-0">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-xl-6">
+                            <div class="row" style="padding-right: 10%; padding-left: 10%">
+                                <div class="col-12">
+                                    <h2 class="heading-secondary mb--30">Login</h2>
+                                    <form class="form" asp-controller="Account" asp-action="Login" method="post">
+                                        <div asp-validation-summary="All" class="text-danger"></div>
+                                        <div class="form-group"></div>
+                                        <div class="form__group mb--20">
+                                            <label class="form__label" for="username_email">
+                                                Email address <span>*</span>
+                                            </label>
+                                            <input type="email" asp-for="Email" id="username_email" class="form__input form__input--2">
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                        <div class="form__group mb--20">
+                                            <label class="form__label" for="password">
+                                                Password <span>*</span>
+                                            </label>
+                                            <input type="password" asp-for="Password" name="password" id="password" class="form__input form__input--2">
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                        <div class="form__group d-flex align-items-center">
+                                            <button type="submit" class="btn btn-5 btn-style-1 color-1">Login</button>
+                                            <div class="custom-checkbox ml--20">
+                                                <input type="checkbox" name="sessionStore" id="sessionStore" class="form__checkbox">
+
+                                                <label for="sessionStore" class="form__checkbox--label">Remember me</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="pt--10">
+                                            <a asp-controller="Account" asp-action="Register" class="btn btn-5 btn-style-1 color-1">Create an account</a>
+                                            <a asp-controller="Account" asp-action="FacebookLogin" class="btn btn-5 btn-style-1 color-1">
+                                                <img style="width: 20px; height: 20px;" src="~/assets/img/icons/facebook.png" alt="about">
+                                            </a>
+                                            <a asp-controller="Account" asp-action="GoogleLogin" class="btn btn-5 btn-style-1 color-1">
+                                                <img style="width: 20px; height: 20px;" src="~/assets/img/icons/google.png" alt="about">
+                                            </a>
+                                            <a asp-controller="Account" asp-action="DuendeLogin" class="btn btn-5 btn-style-1 color-1">
+                                                <img style="width: 20px; height: 20px;" src="~/assets/img/icons/duende.png" alt="about">
+                                            </a>
+                                        </div>
+                                        <a href="" class="forgot-pass pt--10 ps-4">Forgot your password?</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="img-box text-center">
+                                <img src="~/assets/img/login/login-img.jpg" alt="about">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <a class="scroll-to-top" href=""><i class="fa fa-angle-double-up"></i></a>
+    </div>
+</body>
+
+</html>

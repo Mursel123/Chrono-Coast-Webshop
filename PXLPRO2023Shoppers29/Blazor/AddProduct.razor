@@ -1,0 +1,157 @@
+﻿@page "/BlazorAddProduct"
+
+
+
+<h3>Add Product</h3>
+<hr />
+@if (vm != null)
+{
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" @bind-value="vm.Name" />
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" @bind-value="vm.Description"></input>
+    </div>
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" class="form-control" id="price" @bind-value="vm.Price" />
+    </div>
+    <div class="form-group">
+        <label for="model">Model:</label>
+        <input type="text" class="form-control" id="model" @bind-value="vm.Model" />
+    </div>
+    <div class="form-group">
+        <label for="material">Material:</label>
+        <input type="text" class="form-control" id="material" @bind-value="vm.Material" />
+    </div>
+    <div class="form-group">
+        <label for="bezel">Bezel:</label>
+        <input type="text" class="form-control" id="Bezel" @bind-value="vm.Bezel" />
+    </div>
+    <div class="form-group">
+        <label for="serialNumber">Serial Number:</label>
+        <input type="text" class="form-control" id="serialNumber" @bind-value="vm.SerialNumber" />
+    </div>
+    <div class="form-group">
+        <label for="madeDate">Made Date:</label>
+        <input type="text" class="form-control" id="madeDate" @bind-value="vm.MadeDate" />
+    </div>
+    <div class="form-group">
+        <label for="dial">Dial:</label>
+        <input type="text" class="form-control" id="dial" @bind-value="vm.Dial" />
+    </div>
+    <div class="form-group">
+        <label for="bracelet">Bracelet:</label>
+        <input type="text" class="form-control" id="bracelet" @bind-value="vm.Bracelet" />
+    </div>
+    <div class="form-group">
+        <label for="imageUrl">Image Url:</label>
+        <input type="text" class="form-control" id="imageUrl" @bind-value="vm.ImageUrl" />
+    </div>
+    <div class="form-group">
+        <label for="categoryId">Category:</label>
+        <select class="form-control" id="categoryId" @bind="SelectedCategoryId">
+            <option value="">Select a category</option>
+            @foreach (var category in Categories)
+            {
+                <option value="@category.CategoryId">@category.CategoryName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="stock">Stock Amount:</label>
+        <input type="number" class="form-control" id="stock" @bind-value="vm.StockAmount" />
+    </div>
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ErrorMessages)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-primary" @onclick="AddNewProduct">Add Product</button>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+
+
+@code {
+
+    public BlazorProductViewModel vm { get; set; }
+    public List<Models.Category> Categories { get; set; }
+    public int? SelectedCategoryId { get; set; }
+
+    [Inject]
+    public NavigationManager _navigationManager { get; set; }
+    [Inject]
+    public IProductService _productService { get; set; }
+    [Inject]
+    public IStockRepository _stockRepository { get; set; }
+    [Inject]
+    public ShopDbContext _context { get; set; }
+    public List<string> ErrorMessages { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        vm = new BlazorProductViewModel();
+        Categories = _context.ProductCategories.ToList();
+        SelectedCategoryId = null;
+        ErrorMessages = new List<string>();
+
+
+    }
+
+    private async Task AddNewProduct()
+    {
+        try
+        {
+            if (SelectedCategoryId != null || SelectedCategoryId != 0)
+            {
+                var products = await _productService.GetAllProducts();
+                if (!products.Any(x => x.SerialNumber == vm.SerialNumber))
+                {
+                    await _productService.AddProduct(new Models.Product
+                    {
+                        ProductId = vm.ProductId,
+                        Name = vm.Name,
+                        Description = vm.Description,
+                        Price = vm.Price,
+                        Model = vm.Model,
+                        Material = vm.Material,
+                        Bezel = vm.Bezel,
+                        SerialNumber = vm.SerialNumber,
+                        MadeDate = vm.MadeDate,
+                        Dial = vm.Dial,
+                        Bracelet = vm.Bracelet,
+                        ImageUrl = vm.ImageUrl,
+                        CategoryId = SelectedCategoryId
+                    });
+
+                    _stockRepository.Add(new Stock() { SerialNumber = vm.SerialNumber, Amount = vm.StockAmount });
+
+                    _navigationManager.NavigateTo("/Home/BlazorProduct");
+                }
+                else
+                {
+                    ErrorMessages.Add("Serial number already exists!");
+                }
+
+
+
+            }
+        }
+        catch (Exception e)
+        {
+
+            ErrorMessages.Add($"Error found: {e.Message}");
+        }
+        
+
+    }
+}

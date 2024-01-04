@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+
+<h3>Products</h3>
+<NavLink class="btn btn-secondary" href="/Home/BlazorAddProduct">Add Product</NavLink>
+<table class="table table-sm table-bordered table-striped" style="width:fit-content">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Model</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Products)
+        {
+            <tr>
+                <td>@p.ProductId</td>
+                <td>@p.Name</td>
+                <td>@p.Price</td>
+                <td>@p.Description</td>
+                <td>@p.Model</td>
+                <td><NavLink href="@($"/Home/BlazorEditProduct/{p.ProductId}")" class="btn btn-primary">Edit</NavLink></td>
+                <td><a  class="btn btn-danger" @onclick="() => DeleteProduct(p.ProductId)">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Inject]
+    public IProductService _productService { get; set; }
+    [Inject]
+    public IStockRepository _stockRepository { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public List<Models.Product> Products = new List<Models.Product>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await _productService.GetAllProducts();
+    }
+
+    public async Task DeleteProduct(int id)
+    {
+        var product = await _productService.GetProductById(id);
+        await _productService.DeleteProduct(product.ProductId);
+        _stockRepository.Delete(product.SerialNumber);
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+
+    }
+}

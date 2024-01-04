@@ -1,0 +1,30 @@
+﻿<h3>Add Category</h3>
+@if (Category != null)
+{
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" @bind-value="Category.CategoryName" />
+    </div>
+    <button type="submit" class="btn btn-primary" @onclick="AddNewCategory">Add Category</button>
+}
+else
+{
+    <p>Loading...</p>
+}
+@code {
+    [Inject]
+    public ShopDbContext _context { get; set; }
+    public Models.Category Category { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Category = new Models.Category();
+
+    }
+
+    public async Task AddNewCategory()
+    {
+        _context.Add(Category);
+        await _context.SaveChangesAsync();
+    }
+}

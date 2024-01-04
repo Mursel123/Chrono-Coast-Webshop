@@ -1,0 +1,161 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using PXLPRO2023Shoppers29.Services.Interfaces;
+@using PXLPRO2023Shoppers29.Models;
+@using Microsoft.AspNetCore.Http;
+@inject IShoppingCartService _shoppingCart
+@inject UserManager<ShopUser> _userManager
+@inject SignInManager<ShopUser> _signInManager
+@inject ICustomerService _customerService
+@inject IHttpContextAccessor _httpContextAccessor
+
+
+
+@{
+    ShopUser user = null;
+    if (_signInManager.IsSignedIn(User))
+    {
+        user = await _userManager.GetUserAsync(User);
+    }
+
+    int customerId = user != null ? await _customerService.GetCustomerIdByUserIdAsync(user.Id) ?? -1 : -1;
+    int itemCount = await _shoppingCart.GetItemCountAsync(customerId);
+    var cartItems = await _shoppingCart.GetShoppingCartItemsAsync(customerId);
+
+}
+
+<div class="main-content-wrapper">
+    <div class="cart-area pt--40 pb--80 pt-md--30 pb-md--60">
+        <div class="container">
+            <div class="cart-wrapper bg--2 mb--80 mb-md--60">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Cart Area Start -->
+                        <form action="#" class="form cart-form">
+                            <div class="cart-table table-content table-responsive">
+                                <table class="table mb--30">
+                                    <thead>
+                                        <tr>
+                                          @*  <th>remove</th>*@
+                                            <th>Images</th>
+                                            <th>Product</th>
+                                            <th>Unit Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var orderLine in cartItems)
+                                        {
+                                            foreach (var orderLineProduct in orderLine.OrderLines)
+                                            {
+                                                <tr>
+                                                   @* <td>
+                                                        <form method="post" asp-action="RemoveFromCart" asp-controller="ShoppingCart">
+                                                            <input type="hidden" name="productId" value="@orderLineProduct.ProductId" />
+                                                            <button type="submit" class="btn btn-danger">Remove</button>
+                                                        </form>
+                                                    </td>*@
+                                                    <td>
+                                                        <form method="post" asp-action="Details" asp-controller="Product">
+                                                            <input type="hidden" name="id" value="@orderLineProduct.ProductId" />
+                                                            <button type="submit" class="btn btn-primary">
+                                                                <img src="@orderLineProduct.Product.ImageUrl" alt="product">
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                    <td class="wide-column">
+                                                        <h3>
+                                                            <a href="@Url.Action("ProductDetails", "Product", new { id = orderLineProduct.Product.ProductId })">
+                                                                @orderLineProduct.Product.Name
+                                                            </a>
+                                                        </h3>
+                                                    </td>
+                                                    <td class="cart-product-price">
+                                                        <strong>$@orderLineProduct.Product.Price</strong>
+                                                    </td>
+                                                    <td>
+                                                        <div>
+                                                            <input type="number" class="quantity-input" name="qty" id="@orderLineProduct.ProductId" value="@orderLineProduct.Quantity" readonly>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart-product-price">
+                                                        <strong>
+                                                            $@(orderLineProduct.Product.Price * orderLineProduct.Quantity)
+                                                        </strong>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+
+                            
+                        </form>
+                        <!-- Cart Area End -->
+                    </div>
+                </div>
+            </div>
+            <div class="cart-page-total-wrapper">
+                <div class="row justify-content-end">
+                    <div class="col-xl-6 col-lg-8 col-md-10">
+                        <div class="cart-page-total bg--dark-3">
+                            <h2>Cart Totals</h2>
+                            <div class="cart-calculator-table table-content table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                        <tr class="cart-subtotal">
+                                            <th>Subtotal</th>
+                                            <td><span class="price-ammount">
+                                                    @await _shoppingCart.GetCartTotalAsync(customerId)
+                                                </span>
+                                            </span></td>
+                                        </tr>
+                                    
+                                        <tr class="cart-total">
+                                           
+                                            <th>TOTAL</th>
+                                           
+                                            <td><span class="price-ammount"> € @await _shoppingCart.GetCartTotalAsync(customerId)</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a class="btn btn-medium btn-style-3" asp-controller="ShoppingCart" asp-action="Checkout">Proceed to Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

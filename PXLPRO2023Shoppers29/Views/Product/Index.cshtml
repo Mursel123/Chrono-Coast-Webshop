@@ -1,0 +1,100 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using PXLPRO2023Shoppers29.Services.Interfaces;
+
+@inject SignInManager<ShopUser> _signInManager;
+@inject IStockRepository _stockRepository;
+
+@{
+    bool itemAvailability;
+}
+
+
+<div class="d-flex flex-wrap justify-content-center">
+    @{
+        foreach (var item in Model)
+        {
+            itemAvailability = true;
+
+            var itemProduct = _stockRepository.GetBySerialNumber(item.SerialNumber);
+            if (itemProduct.Amount <= 0)
+            {
+                itemAvailability = false;
+            }
+
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12">
+                <div class="mirora-product mb-md--10">
+                    <div class="product-img d-flex justify-content-center align-items-center">
+                        <img src="@item.ImageUrl" alt="@item.Name" class="primary-image m-0" height="250" />
+                        <img src="@item.ImageUrl" alt="@item.Name" class="secondary-image m-0" height="200" />
+
+
+                    </div>
+                    <div class="product-content text-center">
+                        <h4><a href="#">@item.Name</a></h4>
+                        <div class="product-price-wrapper">
+                            <span class="money">$@item.Price</span>
+                        </div>
+                    </div>
+                    <div class="mirora_product_action text-center position-absolute">
+                        <div class="product-rating">
+                            <span>
+                                <i class="fa fa-star theme-star"></i>
+                                <i class="fa fa-star theme-star"></i>
+                                <i class="fa fa-star theme-star"></i>
+                                <i class="fa fa-star theme-star"></i>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </div>
+                        <div class="product-action">
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                if (itemAvailability)
+                                {
+                                    <form method="post" asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-productId="@item.ProductId" asp-route-quantity="1">
+                                        <button class="add_cart cart-item action-cart" type="submit"><span>Add to cart</span></button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span>Out of Stock</span>
+                                }
+                            }
+
+                            else
+                            {
+                                <a href="@Url.Action("Login", "Account")" class="btn btn-transparent btn-fullwidth btn-medium btn-style-1">Login</a>
+                            }
+
+
+                        </div>
+
+                        <p>@item.Description</p>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
+<style>
+    .add_cart {
+        background: #2e2e2e;
+        opacity: 1;
+        border: none;
+        padding: 10px 15px;
+        color: #fff;
+        font-size: 16px;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+        .add_cart:hover {
+            background: #ffc107;
+            border: 2px solid #000;
+            color: #000;
+        }
+
+</style>
+

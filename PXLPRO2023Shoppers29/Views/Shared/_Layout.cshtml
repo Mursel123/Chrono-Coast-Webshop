@@ -1,0 +1,73 @@
+﻿@using PXLPRO2023Shoppers29.Data;
+
+
+@inject ShopDbContext _context
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+    <title>Chrono Coast</title>
+
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="~/assets/img/favicon.ico" type="~/image/x-icon">
+    <link rel="apple-touch-icon" href="~/assets/img/icon.png">
+
+    <base href="~/"/>
+    
+
+    <!-- ************************* CSS Files ************************* -->
+    <!-- Bootstrap CSS -->
+    <!-- All css files are included here. -->
+            <!-- Bootstrap fremwork main css -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+            <!-- Font Awesome css -->
+            <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+            <!-- Elegent Icon CSS -->
+            <link rel="stylesheet" href="~/assets/css/elegent-icons.css">
+            <!-- All Plugins css -->
+    <link rel="stylesheet" href="~/assets/css/plugins.css">
+            <!-- Theme main style -->
+    <link rel="stylesheet" href="~/assets/css/main.css">
+
+    <!-- modernizr JS
+    ============================================ -->
+    <script src="~/assets/js/vendor/modernizr-2.8.3.min.js" defer></script>
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- ************************* JS Files ************************* -->
+    <!-- jQuery JS -->
+    <script src="~/assets/js/vendor/jquery.min.js" defer></script>
+
+    <!-- Bootstrap and Popper Bundle JS -->
+    <script src="~/assets/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- All Plugins Js -->
+    <script src="~/assets/js/plugins.js" defer></script>
+    <!-- Ajax Mail Js -->
+    <script src="~/assets/js/ajax-mail.js" defer></script>
+
+    <!-- Main JS -->
+    <script src="~/assets/js/main.js" defer></script>
+
+
+
+</head>
+
+
+<body>
+    <partial name="_NavBarPartial" />
+
+
+    @RenderBody()
+
+    <partial name="_FooterPartial" />
+    <script src="_framework/blazor.server.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

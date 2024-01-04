@@ -1,0 +1,174 @@
+﻿
+@model PXLPRO2023Shoppers29.Models.ViewModels.SettingsViewModel
+
+@{
+    string name = null;
+    if (string.IsNullOrEmpty(Model.Customer.FirstName))
+    {
+        name = "User";
+    }
+    else
+    {
+        name = Model.Customer.FirstName;
+    }
+}
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+
+<body>
+
+
+    <!-- Main Wrapper Start -->
+    <div class="wrapper bg--shaft">
+        
+        <!-- Breadcumb area Start -->
+        <div class="breadcrumb-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="page-title">My Account</h1>
+                        <ul class="breadcrumb justify-content-center">
+                            <li class="current"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Breadcumb area End -->
+        <!-- Main Content wrapper start -->
+
+        <section class="main-content-wrapper">
+            <div class="account-wrapper pt--40 pb--80 pt-md--30 pb-md--60">
+                <div class="container">
+                    <div class="user-dashboard-tab">
+                        <div class="row">
+                            <div class="col-lg-4 mb-md--30">
+                                <div class="user-dashboard-tab__head nav flex-column" role="tablist" aria-orientation="vertical">
+                                    <button type="button" class="nav-link active" data-bs-toggle="pill" role="tab" data-bs-target="#dashboard" aria-controls="dashboard" aria-selected="true">Dashboard</button>
+                                    <button type="button" class="nav-link" data-bs-toggle="pill" role="tab" data-bs-target="#orders" aria-controls="orders" aria-selected="true">Orders</button>
+                                    <button type="button" class="nav-link" data-bs-toggle="pill" role="tab" data-bs-target="#accountdetails" aria-controls="accountdetails" aria-selected="true">Account Details</button>
+                                    <a class="nav-link" asp-controller="Account" asp-action="LogOut">Logout</a>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="user-dashboard-tab__content tab-content">
+                                    <div class="tab-pane fade show active" id="dashboard">
+                                        <p>Hello <strong>@name</strong> (<a asp-controller="Account" asp-action="LogOut">Log out</a>)</p>
+                                        <p>From your account dashboard. you can easily check & view your recent orders and edit your account details.</p>
+                                    </div>
+                                    <div class="tab-pane fade" id="orders">
+                                        <div class="account-table table-content table-responsive">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Order</th>
+                                                        <th>Date</th>
+                                                        <th>Status</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var order in Model.Orders)
+                                                    {
+                                                        <tr>
+                                                            <td>@order.OrderId</td>
+                                                            <td class="wide-column">@order.OrderDate</td>
+                                                            <td>Purchased</td>
+                                                            <td class="wide-column">$@order.TotalPrice for @order.Quantity item</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="tab-pane fade" id="accountdetails">
+                                        <div class="account-form bg--2">
+                                            <form  class="form" asp-controller="Account" asp-action="Settings" autocomplete="off">
+                                                <input type="hidden" asp-for="Customer.CustomerId" />
+                                                <div class="row mb--20">
+                                                    <div class="col-md-6 mb-sm--20">
+                                                        <div class="form__group">
+                                                            <label for="account_fname" class="form__label">First Name</label>
+                                                            <input type="text" asp-for="Customer.FirstName" id="account_fname" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form__group">
+                                                            <label for="account_lname" class="form__label">First Name</label>
+                                                            <input type="text" asp-for="Customer.LastName" id="account_lname" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb--20">
+                                                    <div class="col-12">
+                                                        <div class="form__group">
+                                                            <label class="form__label">Phone Number</label>
+                                                            <input type="text" asp-for="Customer.PhoneNumber" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.PhoneNumber" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb--20">
+                                                    <div class="col-md-6 mb-sm--20">
+                                                        <div class="form__group">
+                                                            <label class="form__label">Street</label>
+                                                            <input type="text" asp-for="Customer.Street" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.Street" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form__group">
+                                                            <label class="form__label">City</label>
+                                                            <input type="text" asp-for="Customer.City" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.City" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb--20">
+                                                    <div class="col-md-6 mb-sm--20">
+                                                        <div class="form__group">
+                                                            <label class="form__label">State</label>
+                                                            <input type="text" asp-for="Customer.State" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.State" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form__group">
+                                                            <label class="form__label">Zip Code</label>
+                                                            <input type="text" asp-for="Customer.ZipCode" class="form__input form__input--2">
+                                                            <span asp-validation-for="Customer.ZipCode" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <button type="submit" class="btn btn-medium btn-style-2">Save Changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content wrapper end -->
+       
+        <!-- Scroll To Top Start -->
+        <a class="scroll-to-top" href=""><i class="fa fa-angle-double-up"></i></a>
+        <!-- Scroll To Top End -->
+
+    </div>
+    <!-- Main Wrapper End -->
+</body>
+
+</html>

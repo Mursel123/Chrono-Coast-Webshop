@@ -1,0 +1,40 @@
+﻿<h3>Categories</h3>
+<NavLink class="btn btn-secondary" href="/Home/BlazorAddCategory">Add Category</NavLink>
+<table class="table table-sm table-bordered table-striped" style="width:fit-content">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach (var p in Categories)
+        {
+            <tr>
+                <td>@p.CategoryId</td>
+                <td>@p.CategoryName</td>
+                <td><a class="btn btn-danger" @onclick="() => DeleteCategory(p)">Delete</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code {
+    [Inject]
+    public ShopDbContext _context { get; set; }
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    public List<Models.Category> Categories { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Categories = _context.ProductCategories.ToList();
+    }
+
+    public async Task DeleteCategory(Models.Category c)
+    {
+        _context.Remove(c);
+        await _context.SaveChangesAsync();
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+}

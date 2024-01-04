@@ -1,0 +1,179 @@
+﻿
+@model List<PXLPRO2023Shoppers29.Models.Product>
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+
+
+<body>
+    <!-- Main Wrapper Start -->
+    <div class="wrapper bg--shaft">
+        
+        <!-- Main Content Wrapper Start -->
+        <div class="main-content-wrapper">
+            <!-- Slider area Start -->
+
+            <div class="slider-area">
+                <div class="homepage-slider">
+                    <!-- Single Slide Start -->
+                    <div class="single-slider content-v-center" style="background-image: url(assets/img/slider/rolex-banner.jpg)">
+                        <div class="container" style="padding-left:30%; width: 70%;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="slider-content">
+                                        <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s">Exclusive Offer -15% Off This Week</h5>
+                                        <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">Rolex</h1>
+                                        <p class="mb--30 mb-sm--20" data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">Make a statement with the iconic design and superior craftsmanship of a Rolex watch.</p>
+                                        <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s" data-delay=".3s">
+                                            <a asp-controller="Product" asp-action="Index" class="btn btn-bordered btn-style-1">Discover</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Slide End -->
+
+                    <!-- Single Slide Start -->
+                    <div class="single-slider content-v-center" style="background-image: url(assets/img/slider/patek-banner.jpg)">
+                        <div class="container" style="padding-bottom: 15%;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="slider-content">
+                                        <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s">Exclusive Offer -20% Off This Week</h5>
+                                        <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">Patek Philippe</h1>
+                                        <p class="mb--30 mb-sm--20" style="width: 320px;" data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">From the classic and traditional to the modern and innovative, we have a Patek Philippe watch for every taste. </p>
+                                        <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s" data-delay=".3s">
+                                            <a asp-controller="Product" asp-action="Index" class="btn btn-bordered btn-style-1">Discover</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Single Slide End -->
+
+                    <!-- Single Slide Start -->
+                    <div class="single-slider content-v-center" style="background-image: url(assets/img/slider/hublot-banner.jpg)">
+                        <div class="container" style="padding-bottom: 15%;">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="slider-content">
+                                        <h5 data-animation="rollIn" data-duration=".3s" data-delay=".5s">Exclusive Offer -15% Off This Week</h5>
+                                        <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".3s">Hublot</h1>
+                                        <p class="mb--30 mb-sm--20" style="width: 320px;" data-animation="fadeInDown" data-duration=".8s" data-delay=".3s">Experience the perfect blend of style and innovation with our Hublot timepieces.</p>
+                                        <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s" data-delay=".3s">
+                                            <a asp-controller="Product" asp-action="Index" class="btn btn-bordered btn-style-1">Discover</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Slide End -->
+                </div>
+            </div>
+
+            <!-- Slider area End -->
+
+          
+
+            <div class="promo-box-area border-bottom ptb--80 ptb-md--60">
+                <div class="container">
+                    <div class="row">
+                        <PopularProductList producten="@Model.Take(4)"></PopularProductList>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Box area End -->
+
+            <!-- Banner area Start -->
+
+            <section class="banner-area banner-bg-1 ptb--80 ptb-md--60">
+                <div class="banner-box text-center w-50">
+                    <h5 class="banner__label">Sale Off 10% All Products</h5>
+                    <h2 class="banner__name">Tudor</h2>
+                    <p class="banner__text mb--50 mb-md--20">Exquisite Tudor timepieces, where luxury meets heritage</p>
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-bordered btn-style-1">Shop Now</a>
+                </div>
+            </section>      
+
+            <!-- Banner area End -->
+
+            <div class="about-area bg--dark-3">
+                <div class="container-fluid p-0">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-xl-6">
+                            <div class="img-box text-center">
+                                <img src="~/assets/img/about/index_aboutus.jpg" alt="about">
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="row">
+                                <div class="col-10 offset-1">
+                                    <div class="about-text text-center">
+                                        <p class="mb--40 mb-sm--30">
+                                            Welcome to Chrono Coast! We're passionate about watches and dedicated to providing a 
+                                            unique watch experience. Our collection showcases high-quality timepieces that make a statement.
+                                            With timeless classics and contemporary designs, there's a watch to match your style and lifestyle.
+                                            Our team of watch enthusiasts ensures that only the finest watches are curated for you.
+                                            We pride ourselves on exceptional customer service, offering expert guidance for
+                                            the perfect choice. Shop securely with fast shipping and hassle-free returns. 
+                                            Discover the world of watches with Chrono Coast!
+                                        </p>
+                                        <a asp-controller="Home" asp-action="AboutUs" class="btn btn-bordered btn-style-1">About Us</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Promo Box area Start -->
+
+            <div class="promo-box-area">
+                <div class="container-fluid p-0">
+                    <div class="row no-gutters">
+                        <div class="col-md-6 mb-sm--20">
+                            <div class="promo">
+                                <a href="shop.html" class="promo__box promo__box-2">
+                                    <img style="height: 400px;" src="assets/img/banner/classic.webp" alt="Classic">
+                                     <span style="padding-bottom: 300px; padding-left: 150px;" class="promo__content promo__content-2">
+                                        <span class="promo__name">Classic Watches</span>
+                                        @*<span class="promo__price">Embrace timeless sophistication with our exquisite collection of classic watches</span>*@
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="promo">
+                                <a asp-controller="Product" asp-action="Index" class="promo__box promo__box-2">
+                                    <img style="height: 400px; width: 750px;" src="assets/img/banner/luxery.webp" alt="Luxery">
+                                    <span style="padding-bottom: 300px; padding-left: 150px;" class="promo__content promo__content-2">
+                                        <span class="promo__name">Luxury Watches</span>
+                                        @*<span class="promo__price">Indulge in exquisite timepieces that define true luxury and style</span>*@
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Box area End -->
+        </div>
+        <!-- Main Content Wrapper Start -->
+
+        <!-- Scroll To Top Start -->    
+        <a class="scroll-to-top" href=""><i class="fa fa-angle-double-up"></i></a>
+        <!-- Scroll To Top End -->
+    </div>
+    <!-- Main Wrapper End -->
+</body>
+
+</html>

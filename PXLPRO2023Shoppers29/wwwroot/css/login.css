@@ -1,0 +1,83 @@
+﻿html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.form-control {
+    border-radius: 25px;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: none;
+}
+
+.custom-control-label::before,
+.custom-control-label::after {
+    border-radius: 50%;
+}
+
+.btn-primary,
+.btn-danger {
+    border-radius: 25px;
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+    .btn-primary:hover,
+    .btn-danger:hover {
+        transform: translateY(-2px);
+    }
+
+.btn-block {
+    width: 100%;
+}
+
+.custom-checkbox .custom-control-label {
+    font-size: 1.2rem;
+}
+
+.text-decoration-none {
+    text-decoration: none;
+}
+
+hr.my-4 {
+    border-top: 1px solid #dee2e6;
+}
+
+.mb-3 {
+    margin-bottom: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.text-center {
+    text-align: center;
+}
